@@ -1,0 +1,32 @@
+{
+  "name": "AWS devcontainer",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args":{
+      "__WORKSPACE_FOLDER":"/workspace",
+      "__UNAME":"vscode"
+    }
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "containerUser": "vscode",
+  "mounts": [
+    "source=${localEnv:USERPROFILE}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached",
+    "source=${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+  ],
+  "postStartCommand": "find /workspace/.devcontainer -maxdepth 1 -type d -exec git config --global --add safe.directory '{}' \\;",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "amazonwebservices.amazon-q-vscode",
+        "amazonwebservices.aws-toolkit-vscode",
+        "eamodio.gitlens",
+        "hediet.vscode-drawio",
+        "mhutchie.git-graph",
+        "oderwat.indent-rainbow",
+        "trunk.io",
+        "yzhang.markdown-all-in-one"
+      ]
+    }
+  }
+}
