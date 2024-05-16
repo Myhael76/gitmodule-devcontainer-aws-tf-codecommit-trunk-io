@@ -6,19 +6,24 @@ ARG __HCLEDIT_TGZ_FILENAME=hcledit_0.2.11_linux_amd64.tar.gz
 
 RUN apt-get -qy update \
     && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends \
+    && apt-get -qy install --no-install-recommends \
         awscli \
         curl \
         git \
+        gpg \
+        lsb-release \
         python3 \
         python3-pip \
         wget \
-    && rm -rf /var/lib/apt/lists/* \
     && pip install git-remote-codecommit \
+    && wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list \
+    && apt-get -qy update && apt-get -qy install terraform \
     && wget https://github.com/minamijoyo/hcledit/releases/download/v0.2.11/${__HCLEDIT_TGZ_FILENAME} \
     && tar -zxvf ${__HCLEDIT_TGZ_FILENAME} \
     && mv hcledit /usr/local/bin \
-    && curl https://get.trunk.io -fsSL | bash
+    && curl https://get.trunk.io -fsSL | bash \
+    && rm -rf /var/lib/apt/lists/*
 
 ARG __GID=1000
 ARG __GNAME=vscode

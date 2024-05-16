@@ -21,6 +21,7 @@
         "amazonwebservices.amazon-q-vscode",
         "amazonwebservices.aws-toolkit-vscode",
         "eamodio.gitlens",
+        "hashicorp.terraform",
         "hediet.vscode-drawio",
         "mhutchie.git-graph",
         "oderwat.indent-rainbow",
