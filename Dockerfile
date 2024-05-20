@@ -7,14 +7,20 @@ ARG __HCLEDIT_TGZ_FILENAME=hcledit_0.2.11_linux_amd64.tar.gz
 RUN apt-get -qy update \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -qy install --no-install-recommends \
-        awscli \
         curl \
         git \
         gpg \
         lsb-release \
         python3 \
         python3-pip \
+        ssh \
+        unzip \
         wget \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && ./aws/install \
+    && rm -rf aws \
+    && rm "awscliv2.zip" \
     && pip install git-remote-codecommit \
     && wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list \
@@ -35,9 +41,11 @@ RUN groupadd -g ${__GID} ${__GNAME} \
     && useradd -rm -d ${__UHOME} -s /bin/bash -g ${__GID} -u ${__UID} ${__UNAME} \
     && mkdir -p ${__WORKSPACE_FOLDER} \
     && chown ${__UNAME}:${__GNAME} ${__WORKSPACE_FOLDER} \
-    && git config --global --add safe.directory ${__WORKSPACE_FOLDER} \
+    && git config --global --add safe.directory "${__WORKSPACE_FOLDER}" \
     && chown -R ${__UNAME}:${__GNAME} /usr/local/bin
 
 # Note last command to force trunk to work, otherwise it goes in permission denied error
 
 USER ${__UNAME}
+
+RUN git config --global --add safe.directory "${__WORKSPACE_FOLDER}"
