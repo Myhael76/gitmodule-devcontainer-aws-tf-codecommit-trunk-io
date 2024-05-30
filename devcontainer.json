@@ -9,6 +9,7 @@
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "workspaceFolder": "/workspace",
   "containerUser": "vscode",
+  "runArgs": ["--rm"],
   "mounts": [
     "source=${localEnv:USERPROFILE}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached",
     "source=${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
