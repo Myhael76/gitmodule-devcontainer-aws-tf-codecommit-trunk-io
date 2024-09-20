@@ -10,6 +10,9 @@ RUN apt-get -qy update \
         curl \
         git \
         gpg \
+        groff \
+        jq \
+        less \
         lsb-release \
         python3 \
         python3-pip \
